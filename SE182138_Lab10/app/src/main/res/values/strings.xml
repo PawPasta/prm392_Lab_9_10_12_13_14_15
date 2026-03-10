@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SE182138_Lab10</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
+    <string name="edit">Edit</string>
+    <string name="add_person">Add person</string>
+</resources>

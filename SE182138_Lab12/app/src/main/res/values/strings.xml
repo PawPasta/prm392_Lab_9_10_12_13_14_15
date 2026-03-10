@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SE182138_Lab12</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="action_up_number">UP NUMBER</string>
+    <string name="home_counter_value">Home counter: %1$d</string>
+    <string name="notifications_counter_value">Notifications counter: %1$d</string>
+</resources>

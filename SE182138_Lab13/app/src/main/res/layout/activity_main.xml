@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Map -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- Bottom Search Bar -->
+    <LinearLayout
+        android:id="@+id/bottomSearchBar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#CCFFFFFF"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/inputFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From address"
+            android:padding="8dp"
+            android:background="#FFFFFF"/>
+
+        <EditText
+            android:id="@+id/inputTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="To address"
+            android:padding="8dp"
+            android:background="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:text="Route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
+    <!-- Floating Locate Button -->
+    <ImageButton
+        android:id="@+id/btnLocate"
+        android:src="@android:drawable/ic_menu_mylocation"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/bottomSearchBar"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:background="#2196F3"
+        android:padding="12dp"/>
+
+</RelativeLayout>

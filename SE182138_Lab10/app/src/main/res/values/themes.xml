@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SE182138_Lab10" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Keep a light, clean UI for readability. -->
+    </style>
+
+    <style name="Theme.SE182138_Lab10" parent="Base.Theme.SE182138_Lab10" />
+</resources>
