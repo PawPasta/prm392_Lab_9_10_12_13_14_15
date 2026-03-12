@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.prm392_sp26.se182138_lab15.helper.TransactionDbHelper;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtQuantity;
 
     private TextView txtUnitPrice;
+    private ListView listHistory;
+    private ArrayAdapter<String> historyAdapter;
+    private TransactionDbHelper dbHelper;
 
 
     @Override
@@ -33,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
         edtQuantity = findViewById(R.id.edtQuantity);
 
         txtUnitPrice = findViewById(R.id.txtUnitPrice);
+        listHistory = findViewById(R.id.listHistory);
+        dbHelper = new TransactionDbHelper(this);
+        historyAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                new ArrayList<>()
+        );
+        listHistory.setAdapter(historyAdapter);
 
         Button btnConfirm = findViewById(R.id.btnConfirm);
 
@@ -90,6 +106,29 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadHistory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
+    }
+
+    private void loadHistory() {
+        if (dbHelper == null || historyAdapter == null) {
+            return;
+        }
+        historyAdapter.clear();
+        historyAdapter.addAll(dbHelper.getTransactionSummaries());
+        historyAdapter.notifyDataSetChanged();
     }
 
 

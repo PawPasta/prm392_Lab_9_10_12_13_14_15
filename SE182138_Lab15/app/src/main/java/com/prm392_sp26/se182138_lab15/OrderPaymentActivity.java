@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.prm392_sp26.se182138_lab15.api.CreateOrder;
+import com.prm392_sp26.se182138_lab15.helper.TransactionDbHelper;
 import com.prm392_sp26.se182138_lab15.integration.PaymentMethod;
 import com.prm392_sp26.se182138_lab15.constant.AppInfo;
 
@@ -24,7 +25,6 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.nio.charset.StandardCharsets;
-
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
@@ -98,7 +98,6 @@ public class OrderPaymentActivity extends AppCompatActivity {
         txtQuantityValue = findViewById(R.id.txtQuantityValue);
 
         txtTotalValue = findViewById(R.id.txtTotalValue);
-
 
         Intent srcIntent = getIntent();
 
@@ -184,7 +183,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                     @Override
 
                                     public void onPaymentSucceeded(String transactionId, String transToken, String appTransID) {
-
+                                        recordTransaction("ZaloPay", "Thanh toan thanh cong");
                                         openResultScreen("Thanh toán thành công");
 
                                     }
@@ -193,7 +192,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                     @Override
 
                                     public void onPaymentCanceled(String zpTransToken, String appTransID) {
-
+                                        recordTransaction("ZaloPay", "Thanh toan bi huy");
                                         openResultScreen("Thanh toán bị hủy");
 
                                     }
@@ -202,7 +201,7 @@ public class OrderPaymentActivity extends AppCompatActivity {
                                     @Override
 
                                     public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-
+                                        recordTransaction("ZaloPay", "Thanh toan that bai");
                                         openResultScreen("Thanh toán thất bại");
 
                                     }
@@ -293,6 +292,18 @@ public class OrderPaymentActivity extends AppCompatActivity {
 
         startActivity(intent);
 
+    }
+
+    private void recordTransaction(String method, String status) {
+        TransactionDbHelper helper = new TransactionDbHelper(this);
+        helper.insertTransaction(
+                currentProductName,
+                currentQuantity,
+                currentAmount,
+                method,
+                status
+        );
+        helper.close();
     }
 
 

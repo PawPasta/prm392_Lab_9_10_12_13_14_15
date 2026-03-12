@@ -44,9 +44,6 @@
             android:name=".PaymentNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".QRPaymentActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

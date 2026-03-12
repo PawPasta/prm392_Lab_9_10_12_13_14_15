@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Base64;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.prm392_sp26.se182138_lab15.constant.AppInfo;
 import com.prm392_sp26.se182138_lab15.helper.HMacUtil;
+import com.prm392_sp26.se182138_lab15.helper.TransactionDbHelper;
+
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
 
 public class MomoCallbackActivity extends AppCompatActivity {
     private static final String TAG = "MomoCallback";
@@ -77,6 +83,7 @@ public class MomoCallbackActivity extends AppCompatActivity {
             detail.append(" | Chu ky khong hop le");
         }
 
+        saveTransaction(data, detail.toString());
         openResultScreen(detail.toString());
         finish();
     }
@@ -90,5 +97,40 @@ public class MomoCallbackActivity extends AppCompatActivity {
         Intent intent = new Intent(MomoCallbackActivity.this, PaymentNotificationActivity.class);
         intent.putExtra("message", message);
         startActivity(intent);
+    }
+
+    private void saveTransaction(Uri data, String statusMessage) {
+        String productName = "San pham";
+        int quantity = 0;
+        int amount = parseIntSafe(getQuery(data, "amount"));
+
+        String extraData = getQuery(data, "extraData");
+        if (!extraData.isEmpty()) {
+            try {
+                String normalized = extraData.replace(" ", "+");
+                byte[] decoded = Base64.decode(normalized, Base64.DEFAULT);
+                String jsonText = new String(decoded, StandardCharsets.UTF_8);
+                JSONObject extraJson = new JSONObject(jsonText);
+                productName = extraJson.optString("product_name", productName);
+                quantity = extraJson.optInt("quantity", quantity);
+            } catch (Exception e) {
+                Log.d(TAG, "extraData_decode_error", e);
+            }
+        }
+
+        TransactionDbHelper dbHelper = new TransactionDbHelper(this);
+        dbHelper.insertTransaction(productName, quantity, amount, "MoMo", statusMessage);
+        dbHelper.close();
+    }
+
+    private int parseIntSafe(String value) {
+        if (value == null || value.isEmpty()) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }
