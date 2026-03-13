@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SE182138_Lab9</string>
+    <string name="title_cong_viec">Danh sach cong viec</string>
+    <string name="cd_them_cong_viec">Them cong viec</string>
 </resources>

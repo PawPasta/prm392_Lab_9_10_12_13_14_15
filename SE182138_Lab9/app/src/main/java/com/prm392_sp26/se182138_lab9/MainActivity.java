@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lvCongViec;
     ArrayList<CongViec> arrayCongViec;
     CongViecAdapter adapter;
+    FloatingActionButton fabAddCongViec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         lvCongViec = findViewById(R.id.listviewCongViec);
+        fabAddCongViec = findViewById(R.id.fabAddCongViec);
         arrayCongViec = new ArrayList<>();
         adapter = new CongViecAdapter(this, R.layout.dong_cong_viec, arrayCongViec);
         lvCongViec.setAdapter(adapter);
@@ -51,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         checkData.close();
 
         GetDataCongViec();
+
+        fabAddCongViec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogThem();
+            }
+        });
     }
 
     private void GetDataCongViec() {
